@@ -2,22 +2,19 @@ import * as React from 'react';
 import {CircularProgress, Grid, Typography, MenuItem, FormControl, Select, InputLabel} from "@material-ui/core";
 import useStyles from './style';
 import PlaceDetails from "../PlaceDetails";
+import {IPlace} from "../../models/IPlace";
+import KeyBuilder from "../../api/KeyBuilder";
 
 interface ListProps {
-
+  places: Array<IPlace>;
 }
 
-const List: React.FC<ListProps> = ({}) => {
+const List: React.FC<ListProps> = ({places}) => {
   const classes = useStyles();
 
   const [type, setType] = React.useState<string>("restaurants");
   const [rating, setRating] = React.useState<number>(0);
 
-  const places = [
-    {name: "Cool Place"},
-    {name: "Best Beer"},
-    {name: "Best Steak"},
-  ]
 
   return (
     <div className={classes.container}>
@@ -41,8 +38,8 @@ const List: React.FC<ListProps> = ({}) => {
       </FormControl>
 
       <Grid container spacing={3} className={classes.list}>
-        {places?.map((place, index) => {
-          return <Grid item key={place.name + index} xs={12}>
+        {places?.map((place) => {
+          return <Grid item key={KeyBuilder.build} xs={12}>
             <PlaceDetails place={place}/>
           </Grid>
         })}
