@@ -3,6 +3,8 @@ export interface IPlace {
   awards: Array<any>;
   cuisine: Array<any>;
   description: string;
+  latitude: string;
+  longitude: string;
   location_id: string;
   name: string;
   phone: string;

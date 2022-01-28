@@ -6,16 +6,19 @@ import {Rating} from "@material-ui/lab";
 import useStyles from './style';
 import {ICoords} from "../../models/ICoords";
 import {IBounds} from "../../models/IBounds";
+import {IPlace} from "../../models/IPlace";
+import KeyBuilder from "../../api/KeyBuilder";
 
 interface MapProps {
   setCoords: (coords: ICoords) => void;
   setBounds: (bounds: IBounds) => void;
   coords: ICoords;
+  places: Array<IPlace>;
 }
 
-const Map: React.FC<MapProps> = ({setCoords, setBounds, coords}) => {
+const Map: React.FC<MapProps> = ({setCoords, setBounds, coords, places}) => {
   const classes = useStyles();
-  const isMobile = useMediaQuery('(min-width:600px)');
+  const isDesktop = useMediaQuery('(min-width:600px)');
 
   const mapChangeHandler = (e: GoogleMapReact.ChangeEventValue) => {
     setCoords({lat: e.center.lat, lng: e.center.lng});
@@ -34,7 +37,24 @@ const Map: React.FC<MapProps> = ({setCoords, setBounds, coords}) => {
         onChange={(e) => mapChangeHandler(e)}
         onChildClick={() => console.log('')}
       >
-
+        {places?.map((place) => {
+          return <div
+            className={classes.markerContainer}
+            // @ts-ignore
+            lat={Number(place.latitude)}
+            lng={Number(place.longitude)}
+            key={KeyBuilder.build}
+          >
+            {!isDesktop ? <LocationOnOutlined color={"primary"} fontSize={"large"}/> : (
+              <Paper elevation={3} className={classes.paper}>
+                <Typography variant={"subtitle2"}>{place?.name}</Typography>
+                <img
+                  src={place?.photo ? place.photo.images.large.url : 'https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg'}
+                  alt={place?.name} className={classes.pointer}/>
+              </Paper>
+            )}
+          </div>
+        })}
       </GoogleMapReact>
     </div>
   )
