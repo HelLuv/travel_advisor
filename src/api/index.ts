@@ -1,4 +1,5 @@
 import axios from "axios";
+import GoogleMapReact from "google-map-react";
 
 const Axios = axios.create({
   baseURL: 'https://travel-advisor.p.rapidapi.com/',
@@ -18,9 +19,16 @@ const options = {
 
 };
 
-export const getPlacesData = async () => {
+export const getPlacesData = async (ne: GoogleMapReact.Coords, sw: GoogleMapReact.Coords) => {
   try {
-    const {data: {data}} = await Axios.get('restaurants/list-in-boundary', options);
+    const {data: {data}} = await Axios.get('restaurants/list-in-boundary', {
+      params: {
+        bl_latitude: sw.lat,
+        tr_latitude: ne.lat,
+        bl_longitude: sw.lng,
+        tr_longitude: ne.lng,
+      },
+    });
 
     return data;
   } catch (error) {

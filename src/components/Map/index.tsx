@@ -5,10 +5,11 @@ import {LocationOnOutlined} from "@material-ui/icons";
 import {Rating} from "@material-ui/lab";
 import useStyles from './style';
 import {ICoords} from "../../models/ICoords";
+import {IBounds} from "../../models/IBounds";
 
 interface MapProps {
   setCoords: (coords: ICoords) => void;
-  setBounds: (bounds: any) => void;
+  setBounds: (bounds: IBounds) => void;
   coords: ICoords;
 }
 
@@ -17,7 +18,8 @@ const Map: React.FC<MapProps> = ({setCoords, setBounds, coords}) => {
   const isMobile = useMediaQuery('(min-width:600px)');
 
   const mapChangeHandler = (e: GoogleMapReact.ChangeEventValue) => {
-    setCoords({lat: e.center.lat, lng: e.center.lng})
+    setCoords({lat: e.center.lat, lng: e.center.lng});
+    setBounds({ne: e.marginBounds.ne, sw: e.marginBounds.sw})
   }
 
   return (
@@ -30,7 +32,7 @@ const Map: React.FC<MapProps> = ({setCoords, setBounds, coords}) => {
         margin={[50, 50, 50, 50]}
         options={{}}
         onChange={(e) => mapChangeHandler(e)}
-        onChildClick={() => console.log('onChange')}
+        onChildClick={() => console.log('')}
       >
 
       </GoogleMapReact>

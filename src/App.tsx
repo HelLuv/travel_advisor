@@ -6,21 +6,27 @@ import List from "./components/List";
 import Map from "./components/Map";
 import {getPlacesData} from "./api";
 import {ICoords} from "./models/ICoords";
+import {IBounds} from "./models/IBounds";
 
 function App() {
 
   const [places, setPlaces] = React.useState([]);
   const [coords, setCoords] = React.useState<ICoords>({} as ICoords);
-  const [bounds, setBounds] = React.useState(null);
+  const [bounds, setBounds] = React.useState<IBounds>({} as IBounds);
 
   React.useEffect(() => {
-    getPlacesData()
+    navigator.geolocation.getCurrentPosition(({coords: {latitude, longitude}}) => {
+      setCoords({lat: latitude, lng: longitude})
+    })
+  }, [])
+
+  React.useEffect(() => {
+    getPlacesData(bounds.ne, bounds.sw)
       .then((data) => {
         setPlaces(data)
-        console.log(data)
       });
 
-  }, [])
+  }, [coords, bounds])
 
   return (
     <>
