@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {CircularProgress, Grid, Typography, MenuItem, FormControl, Select, InputLabel} from "@material-ui/core";
 import useStyles from './style';
+import PlaceDetails from "../PlaceDetails";
 
 interface ListProps {
 
@@ -11,6 +12,12 @@ const List: React.FC<ListProps> = ({}) => {
 
   const [type, setType] = React.useState<string>("restaurants");
   const [rating, setRating] = React.useState<number>(0);
+
+  const places = [
+    {name: "Cool Place"},
+    {name: "Best Beer"},
+    {name: "Best Steak"},
+  ]
 
   return (
     <div className={classes.container}>
@@ -32,6 +39,14 @@ const List: React.FC<ListProps> = ({}) => {
           <MenuItem value={4.5}>Above 4.5</MenuItem>
         </Select>
       </FormControl>
+
+      <Grid container spacing={3} className={classes.list}>
+        {places?.map((place, index) => {
+          return <Grid item key={place.name + index} xs={12}>
+            <PlaceDetails place={place}/>
+          </Grid>
+        })}
+      </Grid>
     </div>
   )
 };
