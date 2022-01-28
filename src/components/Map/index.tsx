@@ -11,9 +11,24 @@ interface MapProps {
 
 const Map: React.FC<MapProps> = ({}) => {
   const classes = useStyles();
-  const isMobile = useMediaQuery('(min-width:600px)')
+  const isMobile = useMediaQuery('(min-width:600px)');
+
+  const coords = {lat: 0, lng: 0}
   return (
-    <h1>map</h1>
+    <div className={classes.mapContainer}>
+      <GoogleMapReact
+        bootstrapURLKeys={{key: 'AIzaSyBbthxgIYiM9COjJD89xIijgNV1rOW-C3o'}}
+        defaultCenter={coords}
+        center={coords}
+        defaultZoom={14}
+        margin={[50, 50, 50, 50]}
+        options={{}}
+        onChange={() => console.log('onChange')}
+        onChildClick={() => console.log('onChange')}
+      >
+
+      </GoogleMapReact>
+    </div>
   )
 };
 
