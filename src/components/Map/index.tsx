@@ -14,9 +14,10 @@ interface MapProps {
   setBounds: (bounds: IBounds) => void;
   coords: ICoords;
   places: Array<IPlace>;
+  setChildClicked: (child: any) => void;
 }
 
-const Map: React.FC<MapProps> = ({setCoords, setBounds, coords, places}) => {
+const Map: React.FC<MapProps> = ({setCoords, setBounds, coords, places, setChildClicked}) => {
   const classes = useStyles();
   const isDesktop = useMediaQuery('(min-width:600px)');
 
@@ -35,14 +36,14 @@ const Map: React.FC<MapProps> = ({setCoords, setBounds, coords, places}) => {
         margin={[50, 50, 50, 50]}
         options={{}}
         onChange={(e) => mapChangeHandler(e)}
-        onChildClick={() => console.log('')}
+        onChildClick={(child) => setChildClicked(child)}
       >
         {places?.map((place) => {
           return <div
             className={classes.markerContainer}
             // @ts-ignore
-            lat={Number(place.latitude)}
-            lng={Number(place.longitude)}
+            lat={Number(place.latitude) ?? ""}
+            lng={Number(place.longitude) ?? ""}
             key={KeyBuilder.build}
           >
             {!isDesktop ? <LocationOnOutlined color={"primary"} fontSize={"large"}/> : (
@@ -51,6 +52,7 @@ const Map: React.FC<MapProps> = ({setCoords, setBounds, coords, places}) => {
                 <img
                   src={place?.photo ? place.photo.images.large.url : 'https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg'}
                   alt={place?.name} className={classes.pointer}/>
+                <Rating size={"small"} value={Number(place?.rating)} readOnly/>
               </Paper>
             )}
           </div>

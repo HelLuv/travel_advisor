@@ -14,17 +14,27 @@ import {
 } from "@material-ui/core";
 import KeyBuilder from "../../api/KeyBuilder";
 import {LocationOn, Phone} from "@material-ui/icons";
+import {Rating} from "@material-ui/lab";
+import {RefObject} from "react";
 
 interface PlaceDetailsProps {
   place: IPlace;
+  selected: boolean;
+  refProp: any;
 }
 
-const PlaceDetails: React.FC<PlaceDetailsProps> = ({place}) => {
+const PlaceDetails: React.FC<PlaceDetailsProps> = ({place, selected, refProp}) => {
   const classes = useStyles();
-  const isMobile = useMediaQuery('(min-width:600px)');
+
+
+  React.useEffect(() => {
+    if (selected) {
+      refProp?.current?.scrollIntoView({behavior: "smooth", block: "start"});
+    }
+  }, [refProp, selected])
 
   return (
-    <Card elevation={3}>
+    <Card elevation={3} ref={refProp}>
       <CardMedia
         style={{height: 350}}
         image={place?.photo ? place.photo.images.large.url : 'https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg'}
@@ -35,6 +45,10 @@ const PlaceDetails: React.FC<PlaceDetailsProps> = ({place}) => {
         <Box display="flex" justifyContent="space-between">
           <Typography variant="subtitle1">Price</Typography>
           <Typography gutterBottom variant="subtitle1">{place?.price_level}</Typography>
+        </Box>
+        <Box display="flex" justifyContent="space-between">
+          <Rating size={"small"} value={Number(place?.rating)} readOnly/>
+          <Typography gutterBottom variant="subtitle1">out of {place.num_reviews} reviews</Typography>
         </Box>
         <Box display="flex" justifyContent="space-between">
           <Typography variant="subtitle1">Ranking</Typography>

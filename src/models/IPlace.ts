@@ -7,6 +7,7 @@ export interface IPlace {
   longitude: string;
   location_id: string;
   name: string;
+  num_reviews: number;
   phone: string;
   photo: any
   price_level: string;
@@ -14,9 +15,4 @@ export interface IPlace {
   rating: string;
   web_url: string;
   website: string;
-}
-
-interface IPhoto {
-  caption: string;
-  images: any;
 }

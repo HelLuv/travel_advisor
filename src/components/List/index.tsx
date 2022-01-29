@@ -7,43 +7,65 @@ import KeyBuilder from "../../api/KeyBuilder";
 
 interface ListProps {
   places: Array<IPlace>;
+  childClicked: any;
+  isLoading: boolean;
 }
 
-const List: React.FC<ListProps> = ({places}) => {
+const List: React.FC<ListProps> = ({places, childClicked, isLoading}) => {
   const classes = useStyles();
 
   const [type, setType] = React.useState<string>("restaurants");
   const [rating, setRating] = React.useState<number>(0);
+  const [elmRef, setElmRef] = React.useState([]);
 
+  React.useEffect(() => {
+    // @ts-ignore
+    const refs = Array(places?.length).fill().map((_, i) => elmRef[i] || React.createRef());
+    
+    setElmRef(refs);
+  }, [places])
 
   return (
     <div className={classes.container}>
       <Typography>Restaurants, Hotels & Attractions around you</Typography>
-      <FormControl className={classes.formControl}>
-        <InputLabel>Type</InputLabel>
-        <Select value={type} onChange={(e) => setType(e.target.value as string)}>
-          <MenuItem value="restaurants">Restaurants</MenuItem>
-          <MenuItem value="hotels">Hotels</MenuItem>
-          <MenuItem value="attractions">Attractions</MenuItem>
-        </Select>
-      </FormControl>
-      <FormControl className={classes.formControl}>
-        <InputLabel>Rating</InputLabel>
-        <Select value={rating} onChange={(e) => setRating(e.target.value as number)}>
-          <MenuItem value={0}>All</MenuItem>
-          <MenuItem value={3}>Above 3.0</MenuItem>
-          <MenuItem value={4}>Above 4.0</MenuItem>
-          <MenuItem value={4.5}>Above 4.5</MenuItem>
-        </Select>
-      </FormControl>
+      {isLoading ? (
+        <div className={classes.loading}>
+          <CircularProgress size={"5rem"}/>
+        </div>
+      ) : (
+        <>
+          <FormControl className={classes.formControl}>
+            <InputLabel>Type</InputLabel>
+            <Select value={type} onChange={(e) => setType(e.target.value as string)}>
+              <MenuItem value="restaurants">Restaurants</MenuItem>
+              <MenuItem value="hotels">Hotels</MenuItem>
+              <MenuItem value="attractions">Attractions</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl className={classes.formControl}>
+            <InputLabel>Rating</InputLabel>
+            <Select value={rating} onChange={(e) => setRating(e.target.value as number)}>
+              <MenuItem value={0}>All</MenuItem>
+              <MenuItem value={3}>Above 3.0</MenuItem>
+              <MenuItem value={4}>Above 4.0</MenuItem>
+              <MenuItem value={4.5}>Above 4.5</MenuItem>
+            </Select>
+          </FormControl>
 
-      <Grid container spacing={3} className={classes.list}>
-        {places?.map((place) => {
-          return <Grid item key={KeyBuilder.build} xs={12}>
-            <PlaceDetails place={place}/>
+          <Grid container spacing={3} className={classes.list}>
+            {places?.map((place, index) => {
+
+              return <Grid item key={KeyBuilder.build} xs={12}>
+                <PlaceDetails
+                  place={place}
+                  selected={Number(childClicked) === index}
+                  refProp={elmRef[index]}
+                />
+              </Grid>
+            })}
           </Grid>
-        })}
-      </Grid>
+        </>
+      )}
     </div>
   )
 };
