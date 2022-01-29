@@ -9,25 +9,28 @@ interface ListProps {
   places: Array<IPlace>;
   childClicked: any;
   isLoading: boolean;
+  setType: (type: string) => void;
+  type: string;
+  rating: number;
+  setRating: (rating: number) => void;
 }
 
-const List: React.FC<ListProps> = ({places, childClicked, isLoading}) => {
+const List: React.FC<ListProps> = ({places, childClicked, isLoading, setRating, setType, rating, type}) => {
   const classes = useStyles();
 
-  const [type, setType] = React.useState<string>("restaurants");
-  const [rating, setRating] = React.useState<number>(0);
+
   const [elmRef, setElmRef] = React.useState([]);
 
   React.useEffect(() => {
     // @ts-ignore
     const refs = Array(places?.length).fill().map((_, i) => elmRef[i] || React.createRef());
-    
+
     setElmRef(refs);
   }, [places])
 
   return (
     <div className={classes.container}>
-      <Typography>Restaurants, Hotels & Attractions around you</Typography>
+      <Typography variant="h4">Restaurants, Hotels & Attractions around you</Typography>
       {isLoading ? (
         <div className={classes.loading}>
           <CircularProgress size={"5rem"}/>

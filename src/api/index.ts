@@ -20,9 +20,9 @@ const options = {
 
 };
 
-export const getPlacesData = async (ne: GoogleMapReact.Coords, sw: GoogleMapReact.Coords) => {
+export const getPlacesData = async (type: string, ne: GoogleMapReact.Coords, sw: GoogleMapReact.Coords) => {
   try {
-    const {data: {data}} = await Axios.get('restaurants/list-in-boundary', {
+    const {data: {data}} = await Axios.get(`${type}/list-in-boundary`, {
       params: {
         bl_latitude: sw?.lat,
         tr_latitude: ne?.lat,
