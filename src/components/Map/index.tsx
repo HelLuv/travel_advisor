@@ -8,6 +8,7 @@ import {ICoords} from "../../models/ICoords";
 import {IBounds} from "../../models/IBounds";
 import {IPlace} from "../../models/IPlace";
 import KeyBuilder from "../../api/KeyBuilder";
+import mapStyles from "./mapStyles";
 
 interface MapProps {
   setCoords: (coords: ICoords) => void;
@@ -30,12 +31,12 @@ const Map: React.FC<MapProps> = ({setCoords, setBounds, coords, places, setChild
   return (
     <div className={classes.mapContainer}>
       <GoogleMapReact
-        bootstrapURLKeys={{key: 'AIzaSyBbthxgIYiM9COjJD89xIijgNV1rOW-C3o'}}
+        bootstrapURLKeys={{key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY ?? ''}}
         defaultCenter={coords}
         center={coords}
         defaultZoom={14}
         margin={[50, 50, 50, 50]}
-        options={{}}
+        options={{disableDefaultUI: true, zoomControl: true, styles: mapStyles}}
         onChange={(e) => mapChangeHandler(e)}
         onChildClick={(child) => setChildClicked(child)}
       >

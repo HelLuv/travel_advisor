@@ -5,8 +5,7 @@ const AxiosTravel = axios.create({
   baseURL: 'https://travel-advisor.p.rapidapi.com/',
   headers: {
     'x-rapidapi-host': 'travel-advisor.p.rapidapi.com',
-    'x-rapidapi-key': '02abd1d46emsh453ead362e5732ep11ecd1jsnb41fc4413ba0',
-    // 'x-rapidapi-key': '02abd1d46emsh453ead362e5732ep11ecd1jsnb41fc441346h',
+    'x-rapidapi-key': process.env.REACT_APP_RAPID_API_TRAVEL_API_KEY ?? '',
   }
 });
 
@@ -31,7 +30,7 @@ const AxiosWeather = axios.create({
   baseURL: 'https://community-open-weather-map.p.rapidapi.com/',
   headers: {
     'x-rapidapi-host': 'community-open-weather-map.p.rapidapi.com',
-    'x-rapidapi-key': '876800fa49msh20aa13767644fd1p15b096jsn00c3efe3747b'
+    'x-rapidapi-key': process.env.REACT_APP_RAPID_API_WEATHER_API_KEY ?? ""
   }
 });
 
