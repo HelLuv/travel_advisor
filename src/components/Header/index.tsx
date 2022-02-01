@@ -25,7 +25,7 @@ const Header: React.FC<HeaderProps> = ({setCoords}) => {
   }
 
   return (
-    <AppBar position='static'>
+    <AppBar position='static' className={classes.appbar}>
       <Toolbar className={classes.toolbar}>
         <Typography variant="h5" className={classes.title}>
           Travel Advisor
@@ -34,6 +34,7 @@ const Header: React.FC<HeaderProps> = ({setCoords}) => {
           <Typography variant="h6" className={classes.title}>
             Explore new places
           </Typography>
+
           <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
             <div className={classes.search}>
               <div className={classes.searchIcon}>

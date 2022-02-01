@@ -1,6 +1,9 @@
 import {alpha, makeStyles} from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
+  appbar: {
+    backgroundColor: "#0052CC"
+  },
   title: {
     display: 'none',
     [theme.breakpoints.up('sm')]: {

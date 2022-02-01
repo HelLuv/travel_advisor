@@ -4,10 +4,11 @@ import {CssBaseline} from "@material-ui/core";
 import {Grid} from "@material-ui/core";
 import List from "./components/List";
 import Map from "./components/Map";
-import {getPlacesData, getWeatherData} from "./api";
 import {ICoords} from "./models/ICoords";
 import {IBounds} from "./models/IBounds";
 import {IPlace} from "./models/IPlace";
+import {getWeatherData} from "./api/getWeather";
+import {getPlacesData} from "./api/getPlaces";
 
 function App() {
 
@@ -46,8 +47,8 @@ function App() {
 
       getPlacesData(type, bounds.ne, bounds.sw)
         .then((data) => {
-          setPlaces(data?.filter((place: IPlace) => place?.name && place?.num_reviews > 0));
-          setFilteredPlaces([]);
+          // setPlaces(data?.filter((place: IPlace) => place?.name && place?.num_reviews > 0));
+          setFilteredPlaces(data?.filter((place: IPlace) => place?.name && place?.num_reviews > 0)?.filter((place: IPlace) => Number(place.rating) > rating));
           setIsLoading(false)
         });
     }

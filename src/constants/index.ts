@@ -1,1 +1,0 @@
-export type filterType = "restaurants" | "hotels" | "attractions";
