@@ -1,7 +1,7 @@
 import axios from "axios";
 import GoogleMapReact from "google-map-react";
 
-const Axios = axios.create({
+const AxiosTravel = axios.create({
   baseURL: 'https://travel-advisor.p.rapidapi.com/',
   headers: {
     'x-rapidapi-host': 'travel-advisor.p.rapidapi.com',
@@ -12,7 +12,7 @@ const Axios = axios.create({
 
 export const getPlacesData = async (type: string, ne: GoogleMapReact.Coords, sw: GoogleMapReact.Coords) => {
   try {
-    const {data: {data}} = await Axios.get(`${type}/list-in-boundary`, {
+    const {data: {data}} = await AxiosTravel.get(`${type}/list-in-boundary`, {
       params: {
         bl_latitude: sw?.lat,
         tr_latitude: ne?.lat,
@@ -23,6 +23,29 @@ export const getPlacesData = async (type: string, ne: GoogleMapReact.Coords, sw:
 
     return data;
   } catch (error) {
-    console.log(error)
+    console.log('getPlacesData >>> ', {error})
+  }
+}
+
+const AxiosWeather = axios.create({
+  baseURL: 'https://community-open-weather-map.p.rapidapi.com/',
+  headers: {
+    'x-rapidapi-host': 'community-open-weather-map.p.rapidapi.com',
+    'x-rapidapi-key': '876800fa49msh20aa13767644fd1p15b096jsn00c3efe3747b'
+  }
+});
+
+export const getWeatherData = async (lon: string, lat: string) => {
+  try {
+    const {data} = await AxiosWeather.get(`find`, {
+      params: {
+        lon,
+        lat
+      }
+    })
+
+    return data;
+  } catch (error) {
+    console.log('getWeatherData >>> ', {error})
   }
 }

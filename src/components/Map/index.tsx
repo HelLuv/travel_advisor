@@ -15,9 +15,10 @@ interface MapProps {
   coords: ICoords;
   places: Array<IPlace>;
   setChildClicked: (child: any) => void;
+  weatherData: { list: Array<any> };
 }
 
-const Map: React.FC<MapProps> = ({setCoords, setBounds, coords, places, setChildClicked}) => {
+const Map: React.FC<MapProps> = ({setCoords, setBounds, coords, places, setChildClicked, weatherData}) => {
   const classes = useStyles();
   const isDesktop = useMediaQuery('(min-width:600px)');
 
@@ -57,6 +58,14 @@ const Map: React.FC<MapProps> = ({setCoords, setBounds, coords, places, setChild
             )}
           </div>
         })}
+
+        {weatherData?.list?.map((item) => (
+            // @ts-ignore
+            <div key={KeyBuilder.build} lat={item?.coord?.lat} lng={item?.coord?.lon}>
+              <img height={80} src={`https://openweathermap.org/img/w/${item.weather[0].icon}.png`} alt={item?.name}/>
+            </div>
+          )
+        )}
       </GoogleMapReact>
     </div>
   )
