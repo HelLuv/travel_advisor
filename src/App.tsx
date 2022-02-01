@@ -13,10 +13,13 @@ function App() {
 
   const [places, setPlaces] = React.useState<Array<IPlace>>([]);
   const [filteredPlaces, setFilteredPlaces] = React.useState<Array<IPlace>>([]);
+
   const [coords, setCoords] = React.useState<ICoords>({} as ICoords);
   const [bounds, setBounds] = React.useState<IBounds>({} as IBounds);
+
   const [childClicked, setChildClicked] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+
   const [type, setType] = React.useState<string>("restaurants");
   const [rating, setRating] = React.useState<number>(0);
 
@@ -34,20 +37,21 @@ function App() {
   }, [rating])
 
   React.useEffect(() => {
-    setIsLoading(true)
-    getPlacesData(type, bounds.ne, bounds.sw)
-      .then((data) => {
-        setPlaces(data);
-        setFilteredPlaces([]);
-        setIsLoading(false)
-      });
-
+    if (bounds?.sw && bounds?.ne) {
+      setIsLoading(true)
+      getPlacesData(type, bounds.ne, bounds.sw)
+        .then((data) => {
+          setPlaces(data?.filter((place: IPlace) => place?.name && place?.num_reviews > 0));
+          setFilteredPlaces([]);
+          setIsLoading(false)
+        });
+    }
   }, [type, bounds])
 
   return (
     <>
       <CssBaseline/>
-      <Header/>
+      <Header setCoords={setCoords}/>
       <Grid container spacing={3} style={{width: "100%"}}>
         <Grid item xs={12} md={4}>
           <List

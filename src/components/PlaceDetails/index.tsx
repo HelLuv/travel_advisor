@@ -15,7 +15,6 @@ import {
 import KeyBuilder from "../../api/KeyBuilder";
 import {LocationOn, Phone} from "@material-ui/icons";
 import {Rating} from "@material-ui/lab";
-import {RefObject} from "react";
 
 interface PlaceDetailsProps {
   place: IPlace;
@@ -34,7 +33,7 @@ const PlaceDetails: React.FC<PlaceDetailsProps> = ({place, selected, refProp}) =
   }, [refProp, selected])
 
   return (
-    <Card elevation={3} ref={refProp}>
+    <Card elevation={3}>
       <CardMedia
         style={{height: 350}}
         image={place?.photo ? place.photo.images.large.url : 'https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg'}

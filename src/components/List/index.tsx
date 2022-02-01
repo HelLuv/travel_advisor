@@ -57,8 +57,7 @@ const List: React.FC<ListProps> = ({places, childClicked, isLoading, setRating, 
 
           <Grid container spacing={3} className={classes.list}>
             {places?.map((place, index) => {
-
-              return <Grid item key={KeyBuilder.build} xs={12}>
+              return <Grid ref={elmRef[index]} item key={KeyBuilder.build} xs={12}>
                 <PlaceDetails
                   place={place}
                   selected={Number(childClicked) === index}
